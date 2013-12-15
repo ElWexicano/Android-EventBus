@@ -3,15 +3,23 @@ package ie.iamshanedoyle.eventbusexample;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
+
+    static String ACTION_EVENT = "actionEvent";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +68,19 @@ public class MainActivity extends Activity {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
         }
-    }
 
+        @Override
+        public void onResume() {
+            super.onResume();
+            IntentFilter intentFilter = new IntentFilter(NoticeService.BROADCAST);
+            LocalBroadcastManager.getInstance(getActivity()).registerReceiver(onNotice, intentFilter);
+        }
+
+        private BroadcastReceiver onNotice = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Toast.makeText(context, "onNotice onReceive", Toast.LENGTH_SHORT).show();
+            }
+        };
+    }
 }

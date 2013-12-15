@@ -2,7 +2,7 @@ package ie.iamshanedoyle.eventbusexample;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.widget.Toast;
+import android.support.v4.content.LocalBroadcastManager;
 
 /**
  * Created by shane on 14/12/2013.
@@ -19,9 +19,6 @@ public class NoticeService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
-
-        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_LONG).show();
-
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
     }
 }
